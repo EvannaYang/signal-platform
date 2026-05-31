@@ -44,7 +44,34 @@
     .search-bar svg { width:14px; height:14px; stroke:#bbb; flex-shrink:0; }
     .search-bar input { border:none; outline:none; font-size:12px; color:var(--text); background:transparent; font-family:inherit; width:100%; }
     .search-bar input::placeholder { color:#bbb; }
-    .week-pill { height:38px; padding:0 18px; background:var(--dark); color:#fff; border-radius:22px; font-size:12px; font-weight:600; display:flex; align-items:center; gap:6px; cursor:pointer; border:none; font-family:inherit; }
+    /* NOTIFICATIONS PAGE */
+    .notif-page { max-width:560px; }
+    .notif-card { background:var(--card); border-radius:var(--radius); padding:28px; margin-bottom:16px; }
+    .notif-card h2 { font-size:15px; font-weight:700; margin-bottom:4px; }
+    .notif-card p { font-size:12px; color:var(--muted); margin-bottom:20px; line-height:1.6; }
+    .notif-label { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); margin-bottom:8px; }
+    .notif-input-row { display:flex; gap:10px; }
+    .notif-input { flex:1; height:42px; border:1.5px solid var(--border); border-radius:10px; padding:0 14px; font-size:13px; font-family:inherit; outline:none; color:var(--text); background:var(--bg); transition:border-color .15s; }
+    .notif-input:focus { border-color:var(--dark); }
+    .notif-btn { height:42px; padding:0 20px; background:var(--dark); color:#fff; border:none; border-radius:10px; font-size:12px; font-weight:600; cursor:pointer; font-family:inherit; transition:opacity .15s; white-space:nowrap; }
+    .notif-btn:hover { opacity:.85; }
+    .notif-btn.secondary { background:transparent; border:1.5px solid var(--border); color:var(--muted); }
+    .notif-btn.secondary:hover { border-color:var(--dark); color:var(--dark); opacity:1; }
+    .notif-toggle-row { display:flex; align-items:center; justify-content:space-between; padding:14px 0; border-bottom:1px solid var(--border); }
+    .notif-toggle-row:last-child { border-bottom:none; padding-bottom:0; }
+    .notif-toggle-info { flex:1; }
+    .notif-toggle-name { font-size:13px; font-weight:600; margin-bottom:2px; }
+    .notif-toggle-desc { font-size:11px; color:var(--muted); }
+    .toggle { width:40px; height:22px; background:var(--border); border-radius:11px; position:relative; cursor:pointer; transition:background .2s; flex-shrink:0; border:none; }
+    .toggle.on { background:var(--dark); }
+    .toggle::after { content:''; position:absolute; width:16px; height:16px; background:#fff; border-radius:50%; top:3px; left:3px; transition:transform .2s; }
+    .toggle.on::after { transform:translateX(18px); }
+    .notif-saved-row { display:flex; align-items:center; gap:8px; padding:10px 14px; background:var(--light); border-radius:10px; font-size:12px; color:#555; margin-top:12px; }
+    .notif-saved-row strong { color:var(--text); }
+    .email-chip { display:inline-flex; align-items:center; gap:6px; background:var(--dark); color:#fff; font-size:11px; font-weight:500; padding:5px 12px; border-radius:20px; margin:4px; }
+    .email-chip button { background:none; border:none; color:#999; cursor:pointer; font-size:13px; line-height:1; padding:0; }
+    .email-chip button:hover { color:#fff; }
+    .emails-list { display:flex; flex-wrap:wrap; margin-top:10px; min-height:10px; }
 
     /* STATS */
     .stats-row { display:grid; grid-template-columns:1fr 1fr 1fr 1.7fr; gap:14px; margin-bottom:22px; }
@@ -233,6 +260,10 @@
   </button>
 
   <div class="sidebar-bottom">
+    <button class="nav-btn" id="nav-notifications" onclick="showPage('notifications')">
+      <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      <span class="nav-tooltip">Push Settings</span>
+    </button>
     <div class="avatar">E</div>
   </div>
 </div>
@@ -253,6 +284,75 @@
   <!-- WEEK DETAIL -->
   <div class="page" id="page-week">
     <div id="week-content"><div class="loading"><div class="spinner"></div></div></div>
+  </div>
+
+  <!-- NOTIFICATIONS / PUSH SETTINGS -->
+  <div class="page" id="page-notifications">
+    <div class="page-header">
+      <div><h1>Push Settings</h1><p>Get your weekly briefing delivered to your inbox every Monday</p></div>
+    </div>
+    <div class="notif-page">
+
+      <!-- Email subscriptions -->
+      <div class="notif-card">
+        <h2>Weekly Email Digest</h2>
+        <p>Add email addresses to receive your Signal briefing every Monday at 8am. The digest includes top picks, cross-industry signals, and AI tool updates for the week.</p>
+        <div class="notif-label">Add Email Address</div>
+        <div class="notif-input-row">
+          <input class="notif-input" type="email" id="email-input" placeholder="you@example.com" onkeydown="if(event.key==='Enter') addEmail()"/>
+          <button class="notif-btn" onclick="addEmail()">Add</button>
+        </div>
+        <div class="emails-list" id="emails-list"></div>
+      </div>
+
+      <!-- Notification toggles -->
+      <div class="notif-card">
+        <h2>What to Include</h2>
+        <p>Choose which sections are included in your weekly push.</p>
+        <div class="notif-toggle-row">
+          <div class="notif-toggle-info">
+            <div class="notif-toggle-name">Cross-Industry Signals</div>
+            <div class="notif-toggle-desc">Top 3 scored stories across all fields</div>
+          </div>
+          <button class="toggle on" onclick="this.classList.toggle('on')"></button>
+        </div>
+        <div class="notif-toggle-row">
+          <div class="notif-toggle-info">
+            <div class="notif-toggle-name">AI Agent & Tool Updates</div>
+            <div class="notif-toggle-desc">New tool launches relevant to product designers</div>
+          </div>
+          <button class="toggle on" onclick="this.classList.toggle('on')"></button>
+        </div>
+        <div class="notif-toggle-row">
+          <div class="notif-toggle-info">
+            <div class="notif-toggle-name">Must-Watch Resource</div>
+            <div class="notif-toggle-desc">One curated video or article pick for the week</div>
+          </div>
+          <button class="toggle on" onclick="this.classList.toggle('on')"></button>
+        </div>
+        <div class="notif-toggle-row">
+          <div class="notif-toggle-info">
+            <div class="notif-toggle-name">Archive Reminder</div>
+            <div class="notif-toggle-desc">Link back to last week's briefing</div>
+          </div>
+          <button class="toggle" onclick="this.classList.toggle('on')"></button>
+        </div>
+      </div>
+
+      <!-- Schedule -->
+      <div class="notif-card">
+        <h2>Delivery Schedule</h2>
+        <p>Your briefing runs automatically via GitHub Actions every Monday at 8:00 AM UTC. To change the schedule, edit <code style="background:var(--light);padding:2px 6px;border-radius:4px;font-size:11px">.github/workflows/weekly.yml</code> in your repo.</p>
+        <div class="notif-toggle-row" style="margin-top:4px">
+          <div class="notif-toggle-info">
+            <div class="notif-toggle-name">Next run</div>
+            <div class="notif-toggle-desc" id="next-run-date">Calculating...</div>
+          </div>
+          <span style="font-size:11px;font-weight:600;color:var(--muted);background:var(--light);padding:4px 10px;border-radius:6px">Monday 8am UTC</span>
+        </div>
+      </div>
+
+    </div>
   </div>
 
   <!-- COLLECTION -->
@@ -359,9 +459,6 @@ function renderDashboard(d) {
           <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
           <input type="text" placeholder="Search stories..."/>
         </div>
-        <button class="week-pill">Week ${d.week}
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke="#666" style="width:12px;height:12px"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
       </div>
     </div>
 
@@ -624,6 +721,60 @@ function showToast(msg) {
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2200);
 }
+
+// ─── Notifications / Push Settings
+let emails = JSON.parse(localStorage.getItem('signal_emails') || '[]');
+
+function renderEmails() {
+  const list = document.getElementById('emails-list');
+  if (!list) return;
+  if (emails.length === 0) {
+    list.innerHTML = '<span style="font-size:11px;color:#bbb;padding:8px 4px">No emails added yet</span>';
+    return;
+  }
+  list.innerHTML = emails.map(e => `
+    <span class="email-chip">
+      ${e}
+      <button onclick="removeEmail('${e}')" title="Remove">×</button>
+    </span>`).join('');
+}
+
+function addEmail() {
+  const input = document.getElementById('email-input');
+  const val = (input.value || '').trim().toLowerCase();
+  if (!val || !val.includes('@')) { showToast('Please enter a valid email'); return; }
+  if (emails.includes(val)) { showToast('Already added'); return; }
+  emails.push(val);
+  localStorage.setItem('signal_emails', JSON.stringify(emails));
+  input.value = '';
+  renderEmails();
+  showToast('Email added ✓ — will receive Monday briefings');
+}
+
+function removeEmail(e) {
+  emails = emails.filter(x => x !== e);
+  localStorage.setItem('signal_emails', JSON.stringify(emails));
+  renderEmails();
+}
+
+function setNextRunDate() {
+  const el = document.getElementById('next-run-date');
+  if (!el) return;
+  const now = new Date();
+  const day = now.getUTCDay();
+  const daysUntilMon = day === 1 ? 7 : (8 - day) % 7 || 7;
+  const next = new Date(now);
+  next.setUTCDate(now.getUTCDate() + daysUntilMon);
+  next.setUTCHours(8, 0, 0, 0);
+  el.textContent = next.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric' }) + ' at 8:00 AM UTC';
+}
+
+// Re-render emails when notifications page becomes visible
+const origShowPage = showPage;
+window.showPage = function(id) {
+  origShowPage(id);
+  if (id === 'notifications') { renderEmails(); setNextRunDate(); }
+};
 </script>
 </body>
 </html>

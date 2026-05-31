@@ -1,88 +1,32 @@
 {
-  "current": "2025-W26",
+  "current": "2026-W22",
   "weeks": [
     {
-      "weekId": "2025-W26",
-      "week": 26,
-      "year": 2025,
-      "dateRange": "Jun 23–29, 2025",
+      "weekId": "2026-W22",
+      "week": 22,
+      "year": 2026,
+      "dateRange": "May 25–31, 2026",
       "headline": "AI Design Stack Takes Center Stage",
       "stats": { "storiesScanned": 52, "topPicks": 9, "newTools": 4 },
       "topStories": [
         "a16z bets on interface-layer AI",
-        "MIT Designing AI for Human Flourishing course",
+        "NN/G: Outcome-oriented design era",
         "EU AI Act UX compliance patterns",
         "Figma Config 2025: First Draft + Make"
       ]
     },
     {
-      "weekId": "2025-W25",
-      "week": 25,
-      "year": 2025,
-      "dateRange": "Jun 16–22, 2025",
+      "weekId": "2026-W21",
+      "week": 21,
+      "year": 2026,
+      "dateRange": "May 18–24, 2026",
       "headline": "Agentic UX: The Next Design Frontier",
       "stats": { "storiesScanned": 48, "topPicks": 7, "newTools": 3 },
       "topStories": [
-        "Google's agentic mode UI patterns",
-        "Linear redesign — AI-first workflow",
-        "Ethan Mollick's AI adoption research",
-        "Maggie Appleton on task-oriented UI"
-      ]
-    },
-    {
-      "weekId": "2025-W24",
-      "week": 24,
-      "year": 2025,
-      "dateRange": "Jun 9–15, 2025",
-      "headline": "When AI Becomes Your Design System",
-      "stats": { "storiesScanned": 61, "topPicks": 11, "newTools": 5 },
-      "topStories": [
-        "Apple WWDC AI design session recap",
-        "Sequoia's design moat report",
-        "Notion AI design system auto-sync",
-        "Stanford HAI annual AI index"
-      ]
-    },
-    {
-      "weekId": "2025-W23",
-      "week": 23,
-      "year": 2025,
-      "dateRange": "Jun 2–8, 2025",
-      "headline": "Voice UI Makes Its Real Comeback",
-      "stats": { "storiesScanned": 44, "topPicks": 6, "newTools": 2 },
-      "topStories": [
-        "ChatGPT Advanced Voice UX teardown",
-        "Healthcare voice UI for elderly users",
-        "Amazon Alexa redesign leaked",
-        "NN/G: AI study guide for UX work"
-      ]
-    },
-    {
-      "weekId": "2025-W22",
-      "week": 22,
-      "year": 2025,
-      "dateRange": "May 26–Jun 1, 2025",
-      "headline": "The Invisible Interface Era Begins",
-      "stats": { "storiesScanned": 55, "topPicks": 8, "newTools": 3 },
-      "topStories": [
-        "Meta's no-UI AR glasses demo",
-        "Andy Matuschak on ambient computing",
-        "AI UX roles up 340% YoY",
-        "Architect firm cuts iteration time 80%"
-      ]
-    },
-    {
-      "weekId": "2025-W21",
-      "week": 21,
-      "year": 2025,
-      "dateRange": "May 19–25, 2025",
-      "headline": "Personalisation vs. Privacy: Design's Dilemma",
-      "stats": { "storiesScanned": 39, "topPicks": 5, "newTools": 2 },
-      "topStories": [
-        "Netflix vs. Spotify personalisation UX diff",
-        "GDPR impact on AI recommendation design",
-        "Julie Zhuo on taste in AI-assisted design",
-        "Reforge: AI product strategy course launch"
+        "Maggie Appleton on task-oriented UI vs chat",
+        "Dezeen: Architecture firms cut iteration 80%",
+        "Building compliant AI interfaces — EU Act",
+        "NN/G: AI generalists more valuable than specialists"
       ]
     }
   ]
