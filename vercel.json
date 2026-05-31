@@ -1,0 +1,15 @@
+{
+  "rewrites": [
+    { "source": "/week/:weekId", "destination": "/index.html" },
+    { "source": "/archive",      "destination": "/index.html" },
+    { "source": "/collection",   "destination": "/index.html" }
+  ],
+  "headers": [
+    {
+      "source": "/data/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=3600" }
+      ]
+    }
+  ]
+}

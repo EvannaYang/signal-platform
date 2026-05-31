@@ -1,0 +1,3 @@
+anthropic>=0.30.0
+feedparser>=6.0.10
+isoweek>=1.3.3

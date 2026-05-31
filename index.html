@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Signal — AI × Design Intelligence</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    :root {
+      --bg:#EEECEA; --card:#FFFFFF; --dark:#1C1C1C; --dark2:#252525; --dark3:#2E2E2E;
+      --yellow:#E9C840; --red:#E05A3A; --text:#1C1C1C; --muted:#999;
+      --light:#F4F3F0; --border:#E8E7E4; --radius:18px; --radius-sm:10px;
+    }
+    body { font-family:'Inter',-apple-system,sans-serif; background:var(--bg); display:flex; height:100vh; overflow:hidden; color:var(--text); }
+
+    /* SIDEBAR */
+    .sidebar { width:68px; background:var(--dark); display:flex; flex-direction:column; align-items:center; padding:22px 0 18px; gap:6px; flex-shrink:0; z-index:10; }
+    .logo { width:34px; height:34px; background:var(--yellow); border-radius:10px; display:flex; align-items:center; justify-content:center; margin-bottom:20px; font-size:15px; font-weight:900; color:var(--dark); letter-spacing:-1px; text-decoration:none; }
+    .nav-btn { width:40px; height:40px; border-radius:12px; background:transparent; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .15s; position:relative; }
+    .nav-btn:hover { background:#2a2a2a; }
+    .nav-btn.active { background:var(--yellow); }
+    .nav-btn svg { width:18px; height:18px; stroke:#666; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+    .nav-btn.active svg { stroke:var(--dark); }
+    .nav-tooltip { position:absolute; left:52px; background:var(--dark2); color:#fff; font-size:11px; font-weight:500; padding:4px 10px; border-radius:6px; white-space:nowrap; opacity:0; pointer-events:none; transition:opacity .15s; z-index:100; }
+    .nav-btn:hover .nav-tooltip { opacity:1; }
+    .sidebar-divider { width:28px; height:1px; background:#2a2a2a; margin:6px 0; }
+    .sidebar-bottom { margin-top:auto; display:flex; flex-direction:column; align-items:center; gap:6px; }
+    .avatar { width:32px; height:32px; border-radius:50%; background:linear-gradient(135deg,#7B6CF0,#E05A3A); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:#fff; }
+
+    /* MAIN */
+    .main { flex:1; overflow-y:auto; scroll-behavior:smooth; }
+    .main::-webkit-scrollbar { width:4px; }
+    .main::-webkit-scrollbar-thumb { background:#ddd; border-radius:2px; }
+    .page { display:none; padding:28px 28px 40px 24px; }
+    .page.active { display:block; }
+
+    /* HEADER */
+    .page-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:22px; }
+    .page-header h1 { font-size:22px; font-weight:800; letter-spacing:-.5px; }
+    .page-header p { font-size:12px; color:var(--muted); margin-top:3px; }
+    .header-right { display:flex; align-items:center; gap:10px; }
+    .search-bar { display:flex; align-items:center; gap:8px; background:var(--card); border-radius:22px; padding:0 16px; height:38px; border:1.5px solid var(--border); width:220px; }
+    .search-bar svg { width:14px; height:14px; stroke:#bbb; flex-shrink:0; }
+    .search-bar input { border:none; outline:none; font-size:12px; color:var(--text); background:transparent; font-family:inherit; width:100%; }
+    .search-bar input::placeholder { color:#bbb; }
+    .week-pill { height:38px; padding:0 18px; background:var(--dark); color:#fff; border-radius:22px; font-size:12px; font-weight:600; display:flex; align-items:center; gap:6px; cursor:pointer; border:none; font-family:inherit; }
+
+    /* STATS */
+    .stats-row { display:grid; grid-template-columns:1fr 1fr 1fr 1.7fr; gap:14px; margin-bottom:22px; }
+    .stat-card { background:var(--card); border-radius:var(--radius); padding:20px 22px; }
+    .stat-card.dark { background:var(--dark); color:#fff; }
+    .stat-lbl { font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:.6px; color:var(--muted); margin-bottom:8px; }
+    .stat-card.dark .stat-lbl { color:#555; }
+    .stat-num { font-size:40px; font-weight:800; letter-spacing:-2px; line-height:1; }
+    .stat-sub { font-size:11px; color:var(--muted); margin-top:6px; }
+    .stat-card.dark .stat-sub { color:#444; }
+    .mini-bars { display:flex; align-items:flex-end; gap:5px; height:44px; margin:10px 0 6px; }
+    .bar { flex:1; border-radius:3px; background:#2a2a2a; }
+    .bar.hi { background:var(--yellow); }
+
+    /* SECTION */
+    .sec-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+    .sec-title { font-size:15px; font-weight:700; }
+    .see-all { font-size:11px; color:var(--muted); cursor:pointer; font-weight:500; }
+    .see-all:hover { color:var(--text); }
+
+    /* CHIPS */
+    .chips { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; }
+    .chip { height:32px; padding:0 14px; border-radius:20px; font-size:11px; font-weight:600; border:1.5px solid var(--border); background:var(--card); color:var(--muted); cursor:pointer; transition:all .15s; }
+    .chip:hover { border-color:#ccc; color:var(--text); }
+    .chip.active { background:var(--dark); border-color:var(--dark); color:#fff; }
+
+    /* SIGNAL CARDS */
+    .signals-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:22px; }
+    .signal-card { background:var(--card); border-radius:var(--radius); padding:20px; display:flex; flex-direction:column; gap:14px; transition:transform .15s,box-shadow .15s; }
+    .signal-card:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,.07); }
+    .sig-top { display:flex; align-items:flex-start; justify-content:space-between; gap:10px; }
+    .sig-icon-row { display:flex; align-items:center; gap:10px; }
+    .sig-icon { width:38px; height:38px; border-radius:10px; background:var(--light); display:flex; align-items:center; justify-content:center; font-size:17px; flex-shrink:0; }
+    .sig-source { font-size:12px; font-weight:700; }
+    .sig-field { font-size:10px; color:var(--muted); margin-top:2px; font-weight:500; }
+    .sig-score-wrap { text-align:right; flex-shrink:0; }
+    .sig-score { font-size:18px; font-weight:800; letter-spacing:-.5px; }
+    .sig-score span { font-size:11px; font-weight:400; color:var(--muted); }
+    .score-dots { display:flex; gap:3px; margin-top:4px; justify-content:flex-end; }
+    .sdot { width:14px; height:5px; border-radius:2px; background:var(--border); }
+    .sdot.on { background:var(--dark); }
+    .sig-summary { font-size:12px; line-height:1.6; color:#444; }
+    .sig-divider { height:1px; background:var(--border); }
+    .why-lbl { font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:.6px; color:#bbb; margin-bottom:5px; }
+    .why-text { font-size:11px; color:var(--muted); line-height:1.5; }
+    .tip-box { background:var(--light); border-radius:var(--radius-sm); padding:10px 12px; display:flex; gap:8px; align-items:flex-start; }
+    .tip-dot { width:7px; height:7px; background:var(--yellow); border-radius:50%; margin-top:3px; flex-shrink:0; }
+    .tip-text { font-size:11px; color:#555; line-height:1.5; }
+    .card-footer { display:flex; gap:8px; align-items:center; }
+    .open-btn { display:flex; align-items:center; gap:5px; background:var(--dark); color:#fff; border:none; border-radius:8px; padding:7px 14px; font-size:11px; font-weight:600; cursor:pointer; text-decoration:none; font-family:inherit; transition:opacity .15s; flex:1; justify-content:center; }
+    .open-btn:hover { opacity:.85; }
+    .save-btn { display:flex; align-items:center; justify-content:center; gap:5px; background:transparent; border:1.5px solid var(--border); border-radius:8px; padding:7px 12px; font-size:11px; font-weight:600; color:var(--muted); cursor:pointer; transition:all .15s; font-family:inherit; }
+    .save-btn:hover { border-color:var(--dark); color:var(--dark); }
+    .save-btn.saved { background:var(--yellow); border-color:var(--yellow); color:var(--dark); }
+    .save-btn svg, .open-btn svg { width:12px; height:12px; }
+
+    /* BOTTOM ROW */
+    .bottom-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    .agent-card { background:var(--dark); border-radius:var(--radius); padding:22px; color:#fff; }
+    .agent-title { font-size:14px; font-weight:700; margin-bottom:16px; }
+    .agent-item { display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px solid #2a2a2a; }
+    .agent-item:last-child { border-bottom:none; padding-bottom:0; }
+    .agent-dot { width:8px; height:8px; background:var(--yellow); border-radius:50%; flex-shrink:0; }
+    .agent-info { flex:1; }
+    .agent-name { font-size:12px; font-weight:600; margin-bottom:3px; }
+    .agent-desc { font-size:11px; color:#555; }
+    .agent-tag { font-size:10px; font-weight:600; padding:3px 9px; background:#2a2a2a; border-radius:6px; color:#888; flex-shrink:0; }
+    .agent-link { color:#555; text-decoration:none; font-size:11px; padding:3px 6px; border-radius:6px; transition:color .15s; }
+    .agent-link:hover { color:var(--yellow); }
+    .video-card { background:var(--card); border-radius:var(--radius); padding:22px; }
+    .video-title { font-size:14px; font-weight:700; margin-bottom:16px; }
+    .video-thumb { width:100%; height:120px; background:var(--light); border-radius:12px; margin-bottom:14px; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
+    .video-bg { position:absolute; inset:0; background:linear-gradient(135deg,#1C1C1C 0%,#3a3a3a 100%); }
+    .play-btn { width:40px; height:40px; background:var(--yellow); border-radius:50%; display:flex; align-items:center; justify-content:center; z-index:1; cursor:pointer; transition:transform .15s; }
+    .play-btn:hover { transform:scale(1.08); }
+    .play-btn svg { width:14px; height:14px; fill:var(--dark); margin-left:2px; }
+    .video-meta { display:flex; align-items:center; gap:10px; }
+    .video-ch { width:28px; height:28px; border-radius:50%; background:var(--light); display:flex; align-items:center; justify-content:center; font-size:11px; }
+    .video-info { flex:1; }
+    .video-name { font-size:12px; font-weight:600; }
+    .video-channel-name { font-size:11px; color:var(--muted); margin-top:2px; }
+    .video-dur { font-size:10px; font-weight:600; padding:4px 10px; background:var(--light); border-radius:8px; color:var(--muted); }
+
+    /* ARCHIVE */
+    .archive-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+    .archive-card { background:var(--card); border-radius:var(--radius); padding:20px; cursor:pointer; transition:transform .15s,box-shadow .15s; }
+    .archive-card:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,.07); }
+    .archive-card.current { background:var(--dark); color:#fff; }
+    .arc-week { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.6px; color:var(--muted); margin-bottom:6px; }
+    .archive-card.current .arc-week { color:#555; }
+    .arc-title { font-size:14px; font-weight:700; margin-bottom:8px; }
+    .arc-date { font-size:11px; color:var(--muted); margin-bottom:14px; }
+    .archive-card.current .arc-date { color:#555; }
+    .arc-stats { display:flex; gap:10px; margin-bottom:14px; }
+    .arc-stat { background:var(--light); border-radius:8px; padding:6px 10px; font-size:10px; font-weight:600; color:var(--muted); }
+    .arc-stat strong { font-size:13px; font-weight:800; color:var(--text); display:block; }
+    .archive-card.current .arc-stat { background:#2a2a2a; color:#555; }
+    .archive-card.current .arc-stat strong { color:#fff; }
+    .arc-topics { display:flex; flex-direction:column; gap:6px; }
+    .arc-topic { display:flex; align-items:center; gap:8px; font-size:11px; color:#555; }
+    .archive-card.current .arc-topic { color:#555; }
+    .arc-dot { width:6px; height:6px; border-radius:50%; background:var(--border); flex-shrink:0; }
+    .arc-dot.y { background:var(--yellow); }
+    .arc-card-footer { margin-top:14px; padding-top:12px; border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; }
+    .archive-card.current .arc-card-footer { border-color:#2a2a2a; }
+    .arc-open { font-size:11px; font-weight:600; color:var(--muted); }
+    .arc-badge { font-size:10px; font-weight:700; padding:3px 9px; border-radius:6px; background:var(--light); color:var(--muted); }
+    .arc-badge.live { background:var(--yellow); color:var(--dark); }
+
+    /* WEEK DETAIL */
+    .week-detail-header { display:flex; align-items:center; gap:12px; margin-bottom:22px; }
+    .back-btn { display:flex; align-items:center; gap:6px; background:var(--card); border:1.5px solid var(--border); border-radius:10px; padding:7px 14px; font-size:12px; font-weight:600; color:var(--muted); cursor:pointer; transition:all .15s; font-family:inherit; }
+    .back-btn:hover { border-color:var(--dark); color:var(--dark); }
+    .week-badge-pill { background:var(--dark); color:#fff; font-size:11px; font-weight:600; padding:4px 12px; border-radius:20px; }
+
+    /* COLLECTION */
+    .col-filters { display:flex; gap:8px; margin-bottom:18px; flex-wrap:wrap; }
+    .col-chip { height:30px; padding:0 12px; border-radius:20px; font-size:11px; font-weight:600; border:1.5px solid var(--border); background:var(--card); color:var(--muted); cursor:pointer; transition:all .15s; }
+    .col-chip:hover { border-color:#ccc; color:var(--text); }
+    .col-chip.active { background:var(--dark); border-color:var(--dark); color:#fff; }
+    .collection-masonry { columns:3; column-gap:14px; }
+    .col-card { background:var(--card); border-radius:var(--radius); padding:18px; margin-bottom:14px; break-inside:avoid; display:flex; flex-direction:column; gap:10px; transition:transform .15s,box-shadow .15s; }
+    .col-card:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,.07); }
+    .col-type-row { display:flex; align-items:center; justify-content:space-between; }
+    .col-type { font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:.6px; padding:3px 8px; border-radius:5px; background:var(--light); color:var(--muted); }
+    .col-type.paper { background:#EEF2FF; color:#6366F1; }
+    .col-type.post { background:#FFF7ED; color:#EA580C; }
+    .col-type.video { background:#F0FDF4; color:#16A34A; }
+    .col-type.tool { background:#FDF4FF; color:#9333EA; }
+    .col-type.article { background:#FFF1F2; color:#E11D48; }
+    .col-saved-date { font-size:10px; color:var(--muted); }
+    .col-title { font-size:13px; font-weight:700; line-height:1.4; }
+    .col-source { font-size:11px; color:var(--muted); }
+    .col-excerpt { font-size:11px; color:#555; line-height:1.6; }
+    .col-tags { display:flex; gap:6px; flex-wrap:wrap; }
+    .col-tag { font-size:10px; font-weight:500; padding:3px 8px; border-radius:5px; background:var(--light); color:var(--muted); }
+    .col-footer { display:flex; align-items:center; justify-content:space-between; padding-top:8px; border-top:1px solid var(--border); }
+    .col-open { font-size:11px; font-weight:600; color:var(--muted); cursor:pointer; text-decoration:none; }
+    .col-open:hover { color:var(--text); }
+    .col-remove { background:transparent; border:none; cursor:pointer; opacity:.3; transition:opacity .15s; padding:2px; }
+    .col-remove:hover { opacity:1; }
+    .col-remove svg { width:13px; height:13px; stroke:var(--text); fill:none; stroke-width:2; }
+    .empty-state { display:flex; flex-direction:column; align-items:center; justify-content:center; height:200px; color:var(--muted); font-size:13px; gap:8px; }
+
+    /* LOADING */
+    .loading { display:flex; align-items:center; justify-content:center; height:200px; }
+    .spinner { width:24px; height:24px; border:2px solid var(--border); border-top-color:var(--dark); border-radius:50%; animation:spin .7s linear infinite; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+
+    /* TOAST */
+    .toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(60px); background:var(--dark); color:#fff; font-size:12px; font-weight:500; padding:10px 20px; border-radius:20px; box-shadow:0 4px 20px rgba(0,0,0,.2); transition:transform .3s cubic-bezier(.34,1.56,.64,1); z-index:999; }
+    .toast.show { transform:translateX(-50%) translateY(0); }
+  </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <a class="logo" onclick="showPage('dashboard')">S.</a>
+
+  <button class="nav-btn active" id="nav-dashboard" onclick="showPage('dashboard')">
+    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+    <span class="nav-tooltip">Dashboard</span>
+  </button>
+
+  <button class="nav-btn" id="nav-archive" onclick="showPage('archive')">
+    <svg viewBox="0 0 24 24"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+    <span class="nav-tooltip">Archive</span>
+  </button>
+
+  <button class="nav-btn" id="nav-collection" onclick="showPage('collection')">
+    <svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+    <span class="nav-tooltip">Collection</span>
+  </button>
+
+  <div class="sidebar-divider"></div>
+
+  <button class="nav-btn" style="opacity:.3;pointer-events:none">
+    <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    <span class="nav-tooltip">Vibe Projects</span>
+  </button>
+
+  <button class="nav-btn" style="opacity:.3;pointer-events:none">
+    <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    <span class="nav-tooltip">Trending People</span>
+  </button>
+
+  <div class="sidebar-bottom">
+    <div class="avatar">E</div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- DASHBOARD -->
+  <div class="page active" id="page-dashboard">
+    <div id="dashboard-content"><div class="loading"><div class="spinner"></div></div></div>
+  </div>
+
+  <!-- ARCHIVE -->
+  <div class="page" id="page-archive">
+    <div id="archive-content"><div class="loading"><div class="spinner"></div></div></div>
+  </div>
+
+  <!-- WEEK DETAIL -->
+  <div class="page" id="page-week">
+    <div id="week-content"><div class="loading"><div class="spinner"></div></div></div>
+  </div>
+
+  <!-- COLLECTION -->
+  <div class="page" id="page-collection">
+    <div class="page-header">
+      <div><h1>Collection</h1><p>Papers, posts, tools and videos you've saved</p></div>
+      <div class="header-right">
+        <div class="search-bar">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" placeholder="Search collection..." oninput="searchCol(this.value)"/>
+        </div>
+      </div>
+    </div>
+    <div class="col-filters" id="col-filters">
+      <div class="col-chip active" onclick="filterCol('all',this)">All</div>
+      <div class="col-chip" onclick="filterCol('paper',this)">Papers</div>
+      <div class="col-chip" onclick="filterCol('article',this)">Articles</div>
+      <div class="col-chip" onclick="filterCol('video',this)">Videos</div>
+      <div class="col-chip" onclick="filterCol('tool',this)">Tools</div>
+      <div class="col-chip" onclick="filterCol('post',this)">Posts</div>
+    </div>
+    <div class="collection-masonry" id="collection-items"></div>
+    <div id="col-empty" class="empty-state" style="display:none">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+      <span>Nothing saved yet — hit Save on any signal card</span>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<div class="toast" id="toast">Saved to Collection ✓</div>
+
+<script>
+// ─── State
+let archiveData = null;
+let currentWeekData = null;
+let collection = JSON.parse(localStorage.getItem('signal_collection') || '[]');
+
+// ─── Boot
+(async () => {
+  await loadArchive();
+  await loadDashboard();
+  renderCollection();
+  handleURLRoute();
+})();
+
+function handleURLRoute() {
+  const params = new URLSearchParams(window.location.search);
+  const weekId = params.get('week');
+  if (weekId) loadWeekDetail(weekId);
+}
+
+// ─── Navigation
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  const btn = document.getElementById('nav-' + id);
+  if (btn) btn.classList.add('active');
+  if (id !== 'week') window.history.pushState({}, '', id === 'dashboard' ? '/' : '/?page=' + id);
+}
+
+// ─── Load archive index
+async function loadArchive() {
+  const res = await fetch('/data/archive.json');
+  archiveData = await res.json();
+  renderArchive();
+}
+
+// ─── Load current week dashboard
+async function loadDashboard() {
+  const res = await fetch('/data/archive.json');
+  const arch = await res.json();
+  const weekRes = await fetch('/data/weeks/' + arch.current + '.json');
+  currentWeekData = await weekRes.json();
+  renderDashboard(currentWeekData);
+}
+
+// ─── Render Dashboard
+function renderDashboard(d) {
+  const bars = (d.stats.activity || [35,65,50,85,60,100,45])
+    .map(h => `<div class="bar${h >= 80 ? ' hi' : ''}" style="height:${h}%"></div>`).join('');
+
+  const signalCards = d.signals.map(s => renderSignalCard(s)).join('');
+
+  const agentItems = d.agentUpdates.map(a => `
+    <div class="agent-item">
+      <div class="agent-dot"></div>
+      <div class="agent-info">
+        <div class="agent-name">${a.name}</div>
+        <div class="agent-desc">${a.description}</div>
+      </div>
+      <span class="agent-tag">${a.tag}</span>
+      <a class="agent-link" href="${a.url}" target="_blank" rel="noopener">↗</a>
+    </div>`).join('');
+
+  const mw = d.mustWatch;
+
+  document.getElementById('dashboard-content').innerHTML = `
+    <div class="page-header">
+      <div><h1>Hi, Evanna! 👋</h1><p>Your weekly AI × Design intelligence — ${d.dateRange}</p></div>
+      <div class="header-right">
+        <div class="search-bar">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" placeholder="Search stories..."/>
+        </div>
+        <button class="week-pill">Week ${d.week}
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke="#666" style="width:12px;height:12px"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-lbl">Stories Scanned</div><div class="stat-num">${d.stats.storiesScanned}</div><div class="stat-sub">from live sources this week</div></div>
+      <div class="stat-card"><div class="stat-lbl">Top Picks</div><div class="stat-num">${d.stats.topPicks}</div><div class="stat-sub">scored 7.5+ / 10</div></div>
+      <div class="stat-card"><div class="stat-lbl">New AI Tools</div><div class="stat-num">${d.stats.newTools}</div><div class="stat-sub">design-relevant drops</div></div>
+      <div class="stat-card dark"><div class="stat-lbl">Weekly Activity</div><div class="mini-bars">${bars}</div><div class="stat-sub">7 days tracked</div></div>
+    </div>
+
+    <div class="sec-header">
+      <span class="sec-title">Cross-Industry Signals</span>
+      <span class="see-all" onclick="showPage('archive')">See all weeks →</span>
+    </div>
+
+    <div class="chips" id="signal-chips">
+      <div class="chip active" onclick="filterSignals('all',this)">All Fields</div>
+      <div class="chip" onclick="filterSignals('architecture',this)">Architecture</div>
+      <div class="chip" onclick="filterSignals('media',this)">Media & Hollywood</div>
+      <div class="chip" onclick="filterSignals('healthcare',this)">Healthcare</div>
+      <div class="chip" onclick="filterSignals('policy',this)">Policy & Law</div>
+      <div class="chip" onclick="filterSignals('investors',this)">Investors</div>
+      <div class="chip" onclick="filterSignals('education',this)">Education</div>
+    </div>
+
+    <div class="signals-grid" id="signals-grid">${signalCards}</div>
+
+    <div class="bottom-row">
+      <div class="agent-card">
+        <div class="agent-title">AI Agent & Tool Updates</div>
+        ${agentItems}
+      </div>
+      <div class="video-card">
+        <div class="video-title">Must-Read / Watch This Week</div>
+        <a href="${mw.url}" target="_blank" rel="noopener" style="text-decoration:none">
+          <div class="video-thumb">
+            <div class="video-bg"></div>
+            <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+          </div>
+        </a>
+        <div class="video-meta">
+          <div class="video-ch">${mw.channelIcon || '📖'}</div>
+          <div class="video-info">
+            <div class="video-name">${mw.title}</div>
+            <div class="video-channel-name">${mw.channel}</div>
+          </div>
+          <div class="video-dur">${mw.duration}</div>
+        </div>
+        <div style="margin-top:12px">
+          <div class="tip-box"><div class="tip-dot"></div><div class="tip-text">${mw.tip}</div></div>
+        </div>
+        <a href="${mw.url}" target="_blank" rel="noopener" class="open-btn" style="margin-top:10px;display:flex">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Open Source
+        </a>
+      </div>
+    </div>`;
+}
+
+function renderSignalCard(s) {
+  const dots = [1,2,3,4,5].map(i => `<div class="sdot${s.score >= i*2 ? ' on' : ''}"></div>`).join('');
+  const saved = collection.find(c => c.id === s.id);
+  return `
+    <div class="signal-card" data-field="${s.field}">
+      <div class="sig-top">
+        <div class="sig-icon-row">
+          <div class="sig-icon">${s.icon}</div>
+          <div><div class="sig-source">${s.source}</div><div class="sig-field">${s.fieldLabel}</div></div>
+        </div>
+        <div class="sig-score-wrap">
+          <div class="sig-score">${s.score}<span>/10</span></div>
+          <div class="score-dots">${dots}</div>
+        </div>
+      </div>
+      <div class="sig-summary">${s.summary}</div>
+      <div class="sig-divider"></div>
+      <div><div class="why-lbl">Why it matters for you</div><div class="why-text">${s.whyItMatters}</div></div>
+      <div class="tip-box"><div class="tip-dot"></div><div class="tip-text"><strong>Get started:</strong> ${s.tip}</div></div>
+      <div class="card-footer">
+        <a href="${s.url}" target="_blank" rel="noopener" class="open-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Open Source ↗
+        </a>
+        <button class="save-btn ${saved ? 'saved' : ''}" onclick="toggleSave(this,'${s.id}','${s.source.replace(/'/g,"\\'")}','article','${s.fieldLabel}','${s.url}')">
+          <svg viewBox="0 0 24 24" fill="${saved ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+        </button>
+      </div>
+    </div>`;
+}
+
+// ─── Render Archive
+function renderArchive() {
+  if (!archiveData) return;
+  const cards = archiveData.weeks.map((w, i) => {
+    const isCurrent = w.weekId === archiveData.current;
+    const dots = w.topStories.map((s, j) => `<div class="arc-topic"><div class="arc-dot${j < 2 ? ' y' : ''}"></div>${s}</div>`).join('');
+    return `
+      <div class="archive-card ${isCurrent ? 'current' : ''}" onclick="openWeek('${w.weekId}')">
+        <div class="arc-week">${isCurrent ? 'Current Week' : 'Week ' + w.week}</div>
+        <div class="arc-title">${w.headline}</div>
+        <div class="arc-date">${w.dateRange}</div>
+        <div class="arc-stats">
+          <div class="arc-stat"><strong>${w.stats.storiesScanned}</strong>Stories</div>
+          <div class="arc-stat"><strong>${w.stats.topPicks}</strong>Top Picks</div>
+          <div class="arc-stat"><strong>${w.stats.newTools}</strong>Tools</div>
+        </div>
+        <div class="arc-topics">${dots}</div>
+        <div class="arc-card-footer">
+          <span class="arc-open">${isCurrent ? 'Open Dashboard →' : 'View Briefing →'}</span>
+          <span class="arc-badge ${isCurrent ? 'live' : ''}">${isCurrent ? 'Live' : 'Week ' + w.week}</span>
+        </div>
+      </div>`;
+  }).join('');
+
+  document.getElementById('archive-content').innerHTML = `
+    <div class="page-header">
+      <div><h1>Archive</h1><p>All past weekly intelligence briefings — each one live and traceable</p></div>
+      <div class="header-right">
+        <div class="search-bar">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" placeholder="Search past weeks..."/>
+        </div>
+      </div>
+    </div>
+    <div class="archive-grid">${cards}</div>`;
+}
+
+// ─── Open a specific week
+async function openWeek(weekId) {
+  if (weekId === archiveData?.current) { showPage('dashboard'); return; }
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('nav-archive').classList.add('active');
+  document.getElementById('page-week').classList.add('active');
+  document.getElementById('week-content').innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+  window.history.pushState({}, '', '/?week=' + weekId);
+
+  try {
+    const res = await fetch('/data/weeks/' + weekId + '.json');
+    if (!res.ok) throw new Error('Not found');
+    const data = await res.json();
+    renderWeekDetail(data);
+  } catch {
+    // Week data not generated yet — show placeholder
+    const meta = archiveData.weeks.find(w => w.weekId === weekId);
+    renderWeekPlaceholder(meta);
+  }
+}
+
+function renderWeekDetail(d) {
+  const signalCards = d.signals.map(s => renderSignalCard(s)).join('');
+  document.getElementById('week-content').innerHTML = `
+    <div class="week-detail-header">
+      <button class="back-btn" onclick="showPage('archive')">← Archive</button>
+      <span class="week-badge-pill">Week ${d.week} · ${d.dateRange}</span>
+    </div>
+    <div class="page-header" style="margin-bottom:22px">
+      <div><h1>${d.headline}</h1><p>${d.dateRange} · ${d.stats.storiesScanned} stories scanned · ${d.stats.topPicks} top picks</p></div>
+    </div>
+    <div class="signals-grid">${signalCards}</div>`;
+}
+
+function renderWeekPlaceholder(meta) {
+  const dots = (meta?.topStories || []).map(s => `<div style="font-size:12px;color:#555;padding:6px 0;border-bottom:1px solid #f0f0f0">· ${s}</div>`).join('');
+  document.getElementById('week-content').innerHTML = `
+    <div class="week-detail-header">
+      <button class="back-btn" onclick="showPage('archive')">← Archive</button>
+      <span class="week-badge-pill">Week ${meta?.week || ''} · ${meta?.dateRange || ''}</span>
+    </div>
+    <div style="background:#fff;border-radius:18px;padding:40px;text-align:center;margin-top:20px">
+      <div style="font-size:32px;margin-bottom:12px">📦</div>
+      <div style="font-size:15px;font-weight:700;margin-bottom:6px">${meta?.headline || 'Past Week'}</div>
+      <div style="font-size:12px;color:#999;margin-bottom:20px">${meta?.dateRange || ''} — Full briefing coming soon</div>
+      <div style="text-align:left;max-width:320px;margin:0 auto">${dots}</div>
+    </div>`;
+}
+
+// ─── Signal filter
+function filterSignals(field, el) {
+  document.querySelectorAll('#signal-chips .chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('#signals-grid .signal-card').forEach(card => {
+    card.style.display = (field === 'all' || card.dataset.field === field) ? '' : 'none';
+  });
+}
+
+// ─── Collection
+function toggleSave(btn, id, title, type, field, url) {
+  const idx = collection.findIndex(c => c.id === id);
+  if (idx > -1) {
+    collection.splice(idx, 1);
+    btn.classList.remove('saved');
+    btn.querySelector('svg').setAttribute('fill', 'none');
+    showToast('Removed from Collection');
+  } else {
+    const today = new Date().toLocaleDateString('en-US', { month:'short', day:'numeric' });
+    collection.unshift({ id, title, type, field, url, savedDate: today });
+    btn.classList.add('saved');
+    btn.querySelector('svg').setAttribute('fill', 'currentColor');
+    showToast('Saved to Collection ✓');
+  }
+  localStorage.setItem('signal_collection', JSON.stringify(collection));
+  renderCollection();
+}
+
+function renderCollection() {
+  const container = document.getElementById('collection-items');
+  if (!container) return;
+  if (collection.length === 0) {
+    container.innerHTML = '';
+    document.getElementById('col-empty').style.display = 'flex';
+    return;
+  }
+  document.getElementById('col-empty').style.display = 'none';
+  container.innerHTML = collection.map(item => `
+    <div class="col-card" data-coltype="${item.type}">
+      <div class="col-type-row">
+        <span class="col-type ${item.type}">${item.type}</span>
+        <span class="col-saved-date">Saved ${item.savedDate}</span>
+      </div>
+      <div class="col-title">${item.title}</div>
+      <div class="col-source">${item.field}</div>
+      <div class="col-tags"><span class="col-tag">${item.field}</span></div>
+      <div class="col-footer">
+        <a class="col-open" href="${item.url}" target="_blank" rel="noopener">Open ↗</a>
+        <button class="col-remove" onclick="removeFromCol('${item.id}')">
+          <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </div>`).join('');
+}
+
+function removeFromCol(id) {
+  collection = collection.filter(c => c.id !== id);
+  localStorage.setItem('signal_collection', JSON.stringify(collection));
+  renderCollection();
+}
+
+function filterCol(type, el) {
+  document.querySelectorAll('#col-filters .col-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  let visible = 0;
+  document.querySelectorAll('#collection-items .col-card').forEach(c => {
+    const show = type === 'all' || c.dataset.coltype === type;
+    c.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+  document.getElementById('col-empty').style.display = visible === 0 ? 'flex' : 'none';
+}
+
+function searchCol(q) {
+  document.querySelectorAll('#collection-items .col-card').forEach(c => {
+    c.style.display = c.innerText.toLowerCase().includes(q.toLowerCase()) ? '' : 'none';
+  });
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+</script>
+</body>
+</html>
