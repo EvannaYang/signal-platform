@@ -1,0 +1,40 @@
+name: Weekly Signal Fetch
+
+on:
+  schedule:
+    # Every Monday at 8:00 AM UTC
+    - cron: '0 8 * * 1'
+  # Also allow manual trigger from GitHub Actions tab
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r scripts/requirements.txt
+
+      - name: Fetch weekly signals
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python scripts/fetch_weekly.py
+
+      - name: Commit new week data
+        run: |
+          git config user.name  "Signal Bot"
+          git config user.email "signal-bot@users.noreply.github.com"
+          git add data/
+          git diff --staged --quiet || git commit -m "chore: weekly signal update $(date +'%Y-W%V')"
+          git push
