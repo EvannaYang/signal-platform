@@ -23,10 +23,24 @@
       "headline": "Agentic UX: The Next Design Frontier",
       "stats": { "storiesScanned": 48, "topPicks": 7, "newTools": 3 },
       "topStories": [
-        "Maggie Appleton on task-oriented UI vs chat",
-        "Dezeen: Architecture firms cut iteration 80%",
-        "Building compliant AI interfaces — EU Act",
-        "NN/G: AI generalists more valuable than specialists"
+        "Google DeepMind Gemini agentic mode",
+        "Linear AI-first redesign",
+        "Maggie Appleton: task UI vs chat",
+        "NN/G: AI generalists over specialists"
+      ]
+    },
+    {
+      "weekId": "2026-W20",
+      "week": 20,
+      "year": 2026,
+      "dateRange": "May 11–17, 2026",
+      "headline": "Multimodal Models Reshape the Designer's Toolkit",
+      "stats": { "storiesScanned": 44, "topPicks": 7, "newTools": 5 },
+      "topStories": [
+        "GPT-4o Vision for UI critique",
+        "Apple HIG adds AI disclosure rules",
+        "a16z: The Interface Decade thesis",
+        "NN/G: AI prompt literacy now #3 skill"
       ]
     }
   ]

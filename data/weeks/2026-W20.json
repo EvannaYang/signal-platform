@@ -1,0 +1,119 @@
+{
+  "weekId": "2026-W20",
+  "week": 20,
+  "year": 2026,
+  "dateRange": "May 11–17, 2026",
+  "headline": "Multimodal Models Reshape the Designer's Toolkit",
+  "stats": { "storiesScanned": 44, "topPicks": 7, "newTools": 5 },
+  "mustWatch": {
+    "title": "The End of the Design Handoff",
+    "source": "Figma Blog",
+    "url": "https://www.figma.com/blog/",
+    "duration": "8 min read",
+    "summary": "Figma's lead researcher argues that AI-generated code from design files is good enough that the 'handoff' as we know it is functionally over — and what that means for how designers should think about their role going forward.",
+    "icon": "▶"
+  },
+  "aiUpdates": [
+    {
+      "tool": "GPT-4o Vision",
+      "update": "OpenAI expanded GPT-4o's vision capabilities to support real-time image annotation and UI critique — designers can now paste a screenshot and get structured feedback.",
+      "url": "https://openai.com/blog/"
+    },
+    {
+      "tool": "Vercel v0",
+      "update": "v0 added design-token awareness: it now reads your Tailwind config and generates components that match your existing design system instead of generic defaults.",
+      "url": "https://v0.dev/"
+    },
+    {
+      "tool": "Adobe Firefly 3",
+      "update": "Firefly 3 launched with 'Structure Reference' — upload a wireframe and it generates photorealistic imagery that matches the composition exactly. Big for mood boarding.",
+      "url": "https://firefly.adobe.com/"
+    }
+  ],
+  "signals": [
+    {
+      "id": "w20-s1",
+      "source": "MIT Technology Review",
+      "field": "tech",
+      "fieldLabel": "Tech",
+      "icon": "💻",
+      "score": 9,
+      "url": "https://www.technologyreview.com/",
+      "summary": "<strong>Multimodal models are becoming the new design critics.</strong> MIT Tech Review documented how teams at three major product studios are using GPT-4o and Gemini 1.5 to run automated heuristic evaluations on UI screenshots — catching accessibility issues and pattern inconsistencies before a single user test.",
+      "whyItMatters": "AI critique tools are moving from novelty to workflow staple. If you're not experimenting with automated heuristic review now, you'll be behind within 6 months.",
+      "tip": "Try pasting a screenshot of your current project into Claude or GPT-4o with the prompt: 'Evaluate this UI against Nielsen's 10 heuristics. List specific violations with line-level detail.' The output is surprisingly actionable."
+    },
+    {
+      "id": "w20-s2",
+      "source": "NN/g Nielsen Norman Group",
+      "field": "education",
+      "fieldLabel": "Education",
+      "icon": "🎓",
+      "score": 9,
+      "url": "https://www.nngroup.com/articles/",
+      "summary": "<strong>NN/G published their 2026 UX Skills Report — and 'AI prompt literacy' is now the #3 most sought skill by hiring managers,</strong> up from #12 in 2024. The report surveyed 480 design hiring managers across the US, EU, and APAC.",
+      "whyItMatters": "The market is pricing AI fluency into design salaries. This isn't soft trend — it's hard hiring data showing a skills gap you can close now.",
+      "tip": "NN/G recommends building a 'prompt portfolio' — a documented set of prompts you use regularly in your design workflow. Start with 5 you actually use and refine them monthly."
+    },
+    {
+      "id": "w20-s3",
+      "source": "The Verge",
+      "field": "tech",
+      "fieldLabel": "Tech",
+      "icon": "💻",
+      "score": 8,
+      "url": "https://www.theverge.com/",
+      "summary": "<strong>Apple quietly updated its Human Interface Guidelines to include an entire section on AI-generated content labeling</strong> — requiring apps that use LLMs to generate visible text or images to include a disclosure indicator. The change affects thousands of apps heading into WWDC review.",
+      "whyItMatters": "Platform-level disclosure requirements will become a design constraint you'll have to build around. Knowing them early means cleaner implementation, not last-minute bolted-on badges.",
+      "tip": "Download Apple's updated HIG section on AI transparency and map it against any AI features in your current or upcoming projects. Treat it as a design checklist, not legal fine print."
+    },
+    {
+      "id": "w20-s4",
+      "source": "Dezeen",
+      "field": "architecture",
+      "fieldLabel": "Architecture",
+      "icon": "🏛",
+      "score": 8,
+      "url": "https://www.dezeen.com/",
+      "summary": "<strong>Zaha Hadid Architects released their internal AI workflow guide,</strong> showing how parametric design tools integrated with diffusion models cut concept-to-presentation time from 3 weeks to 4 days. The 40-page PDF is publicly available.",
+      "whyItMatters": "Architecture is 2–3 years ahead of product design on AI-augmented iteration loops. Their playbook is directly translatable to UX — especially for rapid concept generation and client presentation.",
+      "tip": "Download the ZHA workflow guide and map each stage to its product design equivalent: concept → wireframe, parametric → component system, rendering → prototype. The parallels are almost 1:1."
+    },
+    {
+      "id": "w20-s5",
+      "source": "a16z",
+      "field": "investors",
+      "fieldLabel": "Investors",
+      "icon": "💰",
+      "score": 8,
+      "url": "https://a16z.com/",
+      "summary": "<strong>a16z's consumer team published 'The Interface Decade' — a thesis that the next 10 years of value creation will happen at the UI layer,</strong> not the model layer. They argue that model commoditization is inevitable, and moats will be built by whoever owns the interaction paradigm.",
+      "whyItMatters": "This is investors explicitly saying designers are building the most strategically valuable layer of the AI stack. That's the strongest case yet for design leverage in an AI-first world.",
+      "tip": "Read the a16z piece as a product strategy document, not VC commentary. Their list of 'unowned interface problems' is essentially a startup idea backlog — and a roadmap for what skills to sharpen."
+    },
+    {
+      "id": "w20-s6",
+      "source": "Wired",
+      "field": "media",
+      "fieldLabel": "Media",
+      "icon": "📺",
+      "score": 7,
+      "url": "https://www.wired.com/",
+      "summary": "<strong>Wired profiled four designers who left FAANG to build AI-native design tools full-time,</strong> each citing the same inflection point: they realized the tools they were using internally were better than anything publicly available, and the gap would only widen.",
+      "whyItMatters": "The tools gap is real and the talent is moving to close it. This signals an incoming wave of designer-built, AI-native tooling — watch these founders, their tools will be your next workflow.",
+      "tip": "Follow all four founders profiled in the piece on X/LinkedIn. Designer-founders building for designers iterate based on practitioner feedback — being an early user often means direct input on features."
+    },
+    {
+      "id": "w20-s7",
+      "source": "NEJM / Healthcare AI",
+      "field": "healthcare",
+      "fieldLabel": "Healthcare",
+      "icon": "🏥",
+      "score": 7,
+      "url": "https://www.nejm.org/",
+      "summary": "<strong>The New England Journal of Medicine published guidelines for AI medical interface design</strong> — the first peer-reviewed framework specifying how clinical AI tools must present uncertainty, confidence intervals, and alternative diagnoses to clinicians. Co-authored with IDEO Health.",
+      "whyItMatters": "Healthcare is where AI interface design stakes are highest — and where the most rigorous standards are being set. These guidelines will influence regulated AI UI requirements across industries within 2 years.",
+      "tip": "Skim the NEJM framework's 'uncertainty communication' section. The principles (show confidence ranges, surface alternatives, never hide low-probability risks) apply directly to any AI-assisted decision in product design."
+    }
+  ]
+}

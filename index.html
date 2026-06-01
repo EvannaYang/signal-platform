@@ -81,10 +81,16 @@
     .stat-card.dark .stat-lbl { color:#555; }
     .stat-num { font-size:40px; font-weight:800; letter-spacing:-2px; line-height:1; }
     .stat-sub { font-size:11px; color:var(--muted); margin-top:6px; }
-    .stat-card.dark .stat-sub { color:#444; }
-    .mini-bars { display:flex; align-items:flex-end; gap:5px; height:44px; margin:10px 0 6px; }
-    .bar { flex:1; border-radius:3px; background:#2a2a2a; }
-    .bar.hi { background:var(--yellow); }
+    .stat-card.dark .stat-sub { color:#777; }
+    .sources-list { display:flex; flex-direction:column; gap:5px; margin:8px 0 4px; }
+    .src-row { display:flex; align-items:center; gap:8px; font-size:11px; color:#888; }
+    .src-dot { width:6px; height:6px; border-radius:50%; background:var(--yellow); flex-shrink:0; }
+
+    /* MAIN CONTENT LAYOUT */
+    .content-layout { display:grid; grid-template-columns:1fr 2fr; gap:14px; }
+    .left-col { display:flex; flex-direction:column; gap:14px; }
+    .right-col { display:flex; flex-direction:column; gap:0; }
+    .signals-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-bottom:0; }
 
     /* SECTION */
     .sec-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
@@ -94,12 +100,11 @@
 
     /* CHIPS */
     .chips { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; }
-    .chip { height:32px; padding:0 14px; border-radius:20px; font-size:11px; font-weight:600; border:1.5px solid var(--border); background:var(--card); color:var(--muted); cursor:pointer; transition:all .15s; }
+    .chip { height:32px; padding:0 14px; border-radius:20px; font-size:11px; font-weight:600; border:1.5px solid var(--border); background:var(--card); color:var(--muted); cursor:pointer; transition:all .15s; display:flex; align-items:center; justify-content:center; }
     .chip:hover { border-color:#ccc; color:var(--text); }
     .chip.active { background:var(--dark); border-color:var(--dark); color:#fff; }
 
     /* SIGNAL CARDS */
-    .signals-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:22px; }
     .signal-card { background:var(--card); border-radius:var(--radius); padding:20px; display:flex; flex-direction:column; gap:14px; transition:transform .15s,box-shadow .15s; }
     .signal-card:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,.07); }
     .sig-top { display:flex; align-items:flex-start; justify-content:space-between; gap:10px; }
@@ -128,8 +133,7 @@
     .save-btn.saved { background:var(--yellow); border-color:var(--yellow); color:var(--dark); }
     .save-btn svg, .open-btn svg { width:12px; height:12px; }
 
-    /* BOTTOM ROW */
-    .bottom-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    /* (layout moved to content-layout) */
     .agent-card { background:var(--dark); border-radius:var(--radius); padding:22px; color:#fff; }
     .agent-title { font-size:14px; font-weight:700; margin-bottom:16px; }
     .agent-item { display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px solid #2a2a2a; }
@@ -189,7 +193,7 @@
 
     /* COLLECTION */
     .col-filters { display:flex; gap:8px; margin-bottom:18px; flex-wrap:wrap; }
-    .col-chip { height:30px; padding:0 12px; border-radius:20px; font-size:11px; font-weight:600; border:1.5px solid var(--border); background:var(--card); color:var(--muted); cursor:pointer; transition:all .15s; }
+    .col-chip { height:30px; padding:0 12px; border-radius:20px; font-size:11px; font-weight:600; border:1.5px solid var(--border); background:var(--card); color:var(--muted); cursor:pointer; transition:all .15s; display:flex; align-items:center; justify-content:center; }
     .col-chip:hover { border-color:#ccc; color:var(--text); }
     .col-chip.active { background:var(--dark); border-color:var(--dark); color:#fff; }
     .collection-masonry { columns:3; column-gap:14px; }
@@ -230,7 +234,7 @@
 
 <!-- SIDEBAR -->
 <div class="sidebar">
-  <a class="logo" onclick="showPage('dashboard')">S.</a>
+  <a class="logo" onclick="showPage('dashboard')">👩‍💻</a>
 
   <button class="nav-btn active" id="nav-dashboard" onclick="showPage('dashboard')">
     <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
@@ -433,19 +437,16 @@ async function loadDashboard() {
 
 // ─── Render Dashboard
 function renderDashboard(d) {
-  const bars = (d.stats.activity || [35,65,50,85,60,100,45])
-    .map(h => `<div class="bar${h >= 80 ? ' hi' : ''}" style="height:${h}%"></div>`).join('');
-
+  const savedCount = collection.length;
   const signalCards = d.signals.map(s => renderSignalCard(s)).join('');
 
-  const agentItems = d.agentUpdates.map(a => `
+  const agentItems = (d.aiUpdates || d.agentUpdates || []).map(a => `
     <div class="agent-item">
       <div class="agent-dot"></div>
       <div class="agent-info">
-        <div class="agent-name">${a.name}</div>
-        <div class="agent-desc">${a.description}</div>
+        <div class="agent-name">${a.tool || a.name}</div>
+        <div class="agent-desc">${a.update || a.description}</div>
       </div>
-      <span class="agent-tag">${a.tag}</span>
       <a class="agent-link" href="${a.url}" target="_blank" rel="noopener">↗</a>
     </div>`).join('');
 
@@ -466,54 +467,65 @@ function renderDashboard(d) {
       <div class="stat-card"><div class="stat-lbl">Stories Scanned</div><div class="stat-num">${d.stats.storiesScanned}</div><div class="stat-sub">from live sources this week</div></div>
       <div class="stat-card"><div class="stat-lbl">Top Picks</div><div class="stat-num">${d.stats.topPicks}</div><div class="stat-sub">scored 7.5+ / 10</div></div>
       <div class="stat-card"><div class="stat-lbl">New AI Tools</div><div class="stat-num">${d.stats.newTools}</div><div class="stat-sub">design-relevant drops</div></div>
-      <div class="stat-card dark"><div class="stat-lbl">Weekly Activity</div><div class="mini-bars">${bars}</div><div class="stat-sub">7 days tracked</div></div>
-    </div>
-
-    <div class="sec-header">
-      <span class="sec-title">Cross-Industry Signals</span>
-      <span class="see-all" onclick="showPage('archive')">See all weeks →</span>
-    </div>
-
-    <div class="chips" id="signal-chips">
-      <div class="chip active" onclick="filterSignals('all',this)">All Fields</div>
-      <div class="chip" onclick="filterSignals('architecture',this)">Architecture</div>
-      <div class="chip" onclick="filterSignals('media',this)">Media & Hollywood</div>
-      <div class="chip" onclick="filterSignals('healthcare',this)">Healthcare</div>
-      <div class="chip" onclick="filterSignals('policy',this)">Policy & Law</div>
-      <div class="chip" onclick="filterSignals('investors',this)">Investors</div>
-      <div class="chip" onclick="filterSignals('education',this)">Education</div>
-    </div>
-
-    <div class="signals-grid" id="signals-grid">${signalCards}</div>
-
-    <div class="bottom-row">
-      <div class="agent-card">
-        <div class="agent-title">AI Agent & Tool Updates</div>
-        ${agentItems}
+      <div class="stat-card dark">
+        <div class="stat-lbl">Live Sources</div>
+        <div class="sources-list">
+          <div class="src-row"><div class="src-dot"></div>a16z · NN/G · UX Collective</div>
+          <div class="src-row"><div class="src-dot"></div>Dezeen · Wired · The Verge</div>
+          <div class="src-row"><div class="src-dot"></div>TechCrunch · MIT Tech Review</div>
+        </div>
+        <div class="stat-sub">8 RSS feeds · ${savedCount} saved to collection</div>
       </div>
-      <div class="video-card">
-        <div class="video-title">Must-Read / Watch This Week</div>
-        <a href="${mw.url}" target="_blank" rel="noopener" style="text-decoration:none">
-          <div class="video-thumb">
-            <div class="video-bg"></div>
-            <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
-          </div>
-        </a>
-        <div class="video-meta">
-          <div class="video-ch">${mw.channelIcon || '📖'}</div>
-          <div class="video-info">
-            <div class="video-name">${mw.title}</div>
-            <div class="video-channel-name">${mw.channel}</div>
-          </div>
-          <div class="video-dur">${mw.duration}</div>
+    </div>
+
+    <div class="content-layout">
+      <div class="left-col">
+        <div class="agent-card">
+          <div class="agent-title">AI Agent & Tool Updates</div>
+          ${agentItems}
         </div>
-        <div style="margin-top:12px">
-          <div class="tip-box"><div class="tip-dot"></div><div class="tip-text">${mw.tip}</div></div>
+        <div class="video-card">
+          <div class="video-title">Must-Read / Watch This Week</div>
+          <a href="${mw.url}" target="_blank" rel="noopener" style="text-decoration:none">
+            <div class="video-thumb">
+              <div class="video-bg"></div>
+              <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+            </div>
+          </a>
+          <div class="video-meta">
+            <div class="video-ch">${mw.icon || mw.channelIcon || '📖'}</div>
+            <div class="video-info">
+              <div class="video-name">${mw.title}</div>
+              <div class="video-channel-name">${mw.source || mw.channel || ''}</div>
+            </div>
+            <div class="video-dur">${mw.duration}</div>
+          </div>
+          <div style="margin-top:12px">
+            <div class="tip-box"><div class="tip-dot"></div><div class="tip-text">${mw.summary || mw.tip || ''}</div></div>
+          </div>
+          <a href="${mw.url}" target="_blank" rel="noopener" class="open-btn" style="margin-top:10px;display:flex">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Open Source
+          </a>
         </div>
-        <a href="${mw.url}" target="_blank" rel="noopener" class="open-btn" style="margin-top:10px;display:flex">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-          Open Source
-        </a>
+      </div>
+
+      <div class="right-col">
+        <div class="sec-header" style="margin-bottom:12px">
+          <span class="sec-title">Cross-Industry Signals</span>
+          <span class="see-all" onclick="showPage('archive')">See all weeks →</span>
+        </div>
+        <div class="chips" id="signal-chips" style="margin-bottom:14px">
+          <div class="chip active" onclick="filterSignals('all',this)">All Fields</div>
+          <div class="chip" onclick="filterSignals('tech',this)">Tech</div>
+          <div class="chip" onclick="filterSignals('architecture',this)">Architecture</div>
+          <div class="chip" onclick="filterSignals('media',this)">Media</div>
+          <div class="chip" onclick="filterSignals('healthcare',this)">Healthcare</div>
+          <div class="chip" onclick="filterSignals('policy',this)">Policy</div>
+          <div class="chip" onclick="filterSignals('investors',this)">Investors</div>
+          <div class="chip" onclick="filterSignals('education',this)">Education</div>
+        </div>
+        <div class="signals-grid" id="signals-grid">${signalCards}</div>
       </div>
     </div>`;
 }

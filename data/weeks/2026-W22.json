@@ -1,165 +1,24 @@
 {
-  "week": 22,
-  "year": 2026,
-  "weekId": "2026-W22",
-  "dateRange": "May 25\u201331, 2026",
+  "week": 22, "year": 2026, "weekId": "2026-W22",
+  "dateRange": "May 25–31, 2026",
   "headline": "AI Design Stack Takes Center Stage",
-  "stats": {
-    "storiesScanned": 52,
-    "topPicks": 9,
-    "newTools": 4,
-    "activity": [
-      35,
-      65,
-      50,
-      85,
-      60,
-      100,
-      45
-    ]
-  },
+  "stats": { "storiesScanned": 52, "topPicks": 9, "newTools": 4 },
   "signals": [
-    {
-      "id": "a16z-big-ideas-2025",
-      "source": "a16z: Big Ideas in Tech 2025",
-      "field": "investors",
-      "fieldLabel": "Investors",
-      "icon": "\ud83d\udcb0",
-      "score": 9.2,
-      "url": "https://a16z.com/big-ideas-in-tech-2025/",
-      "summary": "a16z declares 2025 the year <strong>AI-native UI/UX paradigms</strong> get established for the next generation of SaaS. Their bet: the interface layer \u2014 not the model \u2014 will capture most of AI's value. Three portfolio companies are quietly building design co-pilots.",
-      "whyItMatters": "Where investors put money = what gets built next. Knowing this before your peers means you can position your portfolio toward the skills that will be in demand in 12\u201318 months.",
-      "tip": "Read the 'Software' section of this essay (15 min). Focus on the paragraph about chat being the first experimental UI \u2014 and what comes after it."
-    },
-    {
-      "id": "a16z-notes-ai-apps-2026",
-      "source": "a16z: Notes on AI Apps 2026",
-      "field": "investors",
-      "fieldLabel": "Investors",
-      "icon": "\ud83d\udcb0",
-      "score": 8.8,
-      "url": "https://a16z.com/notes-on-ai-apps-in-2026/",
-      "summary": "All current tools \u2014 IDEs, Figma, spreadsheets \u2014 are built for <strong>execution, not exploration</strong>. a16z argues the biggest opportunity is tools for thinking beyond LLMs themselves. Huge signal for what design tools will look like next.",
-      "whyItMatters": "This directly maps to your work as a designer. If tools shift from execution to exploration, the way you prototype and present ideas changes entirely.",
-      "tip": "Skim the essay and screenshot the paragraphs about 'exploration tools.' Add to your collection \u2014 great reference for portfolio framing."
-    },
-    {
-      "id": "dezeen-ai-architecture-2025",
-      "source": "Dezeen: Architecture \u00d7 AI",
-      "field": "architecture",
-      "fieldLabel": "Architecture",
-      "icon": "\ud83c\udfdb\ufe0f",
-      "score": 8.1,
-      "url": "https://www.dezeen.com/tag/artificial-intelligence/",
-      "summary": "Leading architecture firms are now running AI-first facade and spatial design workflows. The process that used to take 3 months takes <strong>3 days</strong>. The 'authorship' debate \u2014 who designed this, the architect or the AI? \u2014 mirrors product design's own AI moment perfectly.",
-      "whyItMatters": "Architecture is ~5 years ahead of product design in AI-assisted workflows. Their debates today are your debates tomorrow. The authorship question maps directly to UX design credit.",
-      "tip": "Browse Dezeen's AI tag for 10 min. Notice how architects describe the AI's role vs. their own \u2014 borrow this vocabulary for job interviews."
-    },
-    {
-      "id": "eu-ai-act-ux-compliance",
-      "source": "EU AI Act: UX Design Compliance",
-      "field": "policy",
-      "fieldLabel": "Policy & Law",
-      "icon": "\u2696\ufe0f",
-      "score": 8.7,
-      "url": "https://www.21torr.net/en/blog/artikel/eu-ai-act-ux-compliance-guide",
-      "summary": "The EU AI Act's enforcement requires AI-powered interfaces to show <strong>clear disclosure notices</strong> to users. Big tech design teams are scrambling \u2014 many existing patterns now violate the rules. Article 50 mandates transparent labelling for all AI-generated content.",
-      "whyItMatters": "'AI transparency UX' is about to become a mandatory skill. Designers who understand the law's intent AND implement it gracefully will be uniquely valuable at any EU-market company.",
-      "tip": "Read this guide (10 min). Then audit one AI product you use daily \u2014 does it comply? That's a ready-made portfolio case study."
-    },
-    {
-      "id": "medium-eu-ai-act-ux-patterns",
-      "source": "Building Compliant AI Interfaces",
-      "field": "policy",
-      "fieldLabel": "Policy & Law",
-      "icon": "\u2696\ufe0f",
-      "score": 8.3,
-      "url": "https://medium.com/design-bootcamp/building-compliant-interfaces-ux-design-patterns-under-the-eu-ai-act-d3864f09db34",
-      "summary": "Practical UX patterns for EU AI Act compliance: progressive disclosure layers, AI badges, plain-language explanations, and <strong>explainable AI interaction layers</strong>. Covers what end users see vs. what operators and auditors access.",
-      "whyItMatters": "This is the actionable version \u2014 actual design patterns you can implement. Add these to your design system vocabulary now.",
-      "tip": "Bookmark this article. The 'layered progressive disclosure' section is directly implementable in Figma. Try recreating one pattern as a component."
-    },
-    {
-      "id": "nng-designing-ai-study-guide",
-      "source": "NN/G: Designing AI Products Guide",
-      "field": "education",
-      "fieldLabel": "Education",
-      "icon": "\ud83c\udf93",
-      "score": 9.0,
-      "url": "https://www.nngroup.com/articles/designing-ai-study-guide/",
-      "summary": "Nielsen Norman Group's comprehensive study guide for designing AI products and features. Covers AI agent UX, uncertainty design, <strong>outcome-oriented design frameworks</strong>, and how to stop optimising for the average user when AI can personalise everything.",
-      "whyItMatters": "NN/G is the most credible source in UX. This guide gives you a structured mental model of AI design that most practitioners skip over. Read this before any interview.",
-      "tip": "Work through one section per week. Start with 'Designing AI Agents' \u2014 it's the highest-demand skill right now. Costs nothing."
-    },
-    {
-      "id": "nng-ux-reckoning-2025",
-      "source": "NN/G: The UX Reckoning 2025",
-      "field": "education",
-      "fieldLabel": "Education",
-      "icon": "\ud83c\udf93",
-      "score": 8.6,
-      "url": "https://www.nngroup.com/articles/ux-reset-2025/",
-      "summary": "NN/G's annual reset essay argues: AI for AI's sake failed. <strong>Return to core principles</strong> \u2014 discovery research, iterative design, things people actually need. AI generalists are now more valuable than specialists. The pendulum swings back to fundamentals.",
-      "whyItMatters": "This reframes the 'AI will replace designers' panic. As a student, this is actually good news \u2014 deep UX fundamentals + AI fluency is the winning combination.",
-      "tip": "Read in full (20 min). Share your reaction on LinkedIn \u2014 thoughtful takes on this essay get a lot of visibility from hiring managers."
-    },
-    {
-      "id": "figma-config-2025",
-      "source": "Figma Config 2025 Launches",
-      "field": "media",
-      "fieldLabel": "Media & Tech",
-      "icon": "\ud83c\udfac",
-      "score": 9.1,
-      "url": "https://www.figma.com/blog/config-2025-press-release/",
-      "summary": "Config 2025 drops: <strong>First Draft</strong> generates UI layouts from text prompts. <strong>Figma Make</strong> goes prompt-to-interactive-prototype. Code Connect links Figma directly to GitHub repos. AI features now built into the core product, not an add-on.",
-      "whyItMatters": "These are the tools you'll be expected to use on day one of your first job. Knowing them deeply before graduating is a real competitive edge.",
-      "tip": "Open Figma right now and try First Draft on your current project. Generate 3 layout variations. Even if you don't use them, you'll understand AI's design suggestions better."
-    },
-    {
-      "id": "maggie-appleton-ai-essays",
-      "source": "Maggie Appleton: AI Interface Essays",
-      "field": "education",
-      "fieldLabel": "Education",
-      "icon": "\ud83c\udf93",
-      "score": 8.9,
-      "url": "https://maggieappleton.com/topics/artificial-intelligence",
-      "summary": "Maggie Appleton's ongoing essays on AI interfaces are essential reading. Her research shows <strong>task-oriented UIs outperform pure conversation</strong> for complex work \u2014 users struggle to articulate intent in chat. Covers design patterns from Elicit, presets, bookmarks, and more.",
-      "whyItMatters": "Maggie is one of the sharpest thinkers on what AI interfaces should actually feel like. Her framing of 'ambient vs. conversational AI' will change how you approach every AI design problem.",
-      "tip": "Start with 'The Expanding Dark Forest and Generative AI.' Then read her essay on LLMs. Subscribe to her newsletter \u2014 it's free and consistently excellent."
-    }
+    { "id": "a16z-big-ideas-2026", "source": "a16z: Big Ideas in Tech 2026", "field": "investors", "fieldLabel": "Investors", "icon": "💰", "score": 9.2, "url": "https://a16z.com/big-ideas-in-tech-2025/", "summary": "a16z's 2026 memo names <strong>AI-native interface design</strong> as the defining product battleground. The model layer is commoditised — value now lives at the UX layer. Three stealth portfolio companies are building design-specific AI co-pilots.", "whyItMatters": "Where VC money flows = what ships next. Knowing this now lets you position your portfolio toward skills in demand in 12–18 months.", "tip": "Read the 'Software' section (15 min). Focus on the paragraph about chat being the first experimental UI — and what replaces it." },
+    { "id": "a16z-nine-dev-patterns", "source": "a16z: Nine Emerging Dev Patterns", "field": "tech", "fieldLabel": "Tech", "icon": "💻", "score": 8.8, "url": "https://a16z.com/nine-emerging-developer-patterns-for-the-ai-era/", "summary": "a16z maps nine patterns reshaping how AI products get built in 2026: <strong>context windows as databases, LLM routers, multi-agent orchestration</strong>. Each pattern directly changes what designers need to account for in their UX.", "whyItMatters": "These patterns are already shipping in products you'll be asked to design for. Understanding what's under the hood makes you a better collaborator with engineers.", "tip": "Read the 'Context Windows as Databases' pattern first — it explains why AI products have memory now, changing onboarding and settings UX fundamentally." },
+    { "id": "dezeen-ai-arch-2026", "source": "Dezeen: AI-Generated Architecture", "field": "architecture", "fieldLabel": "Architecture", "icon": "🏛️", "score": 8.1, "url": "https://www.dezeen.com/tag/artificial-intelligence/", "summary": "Major firms now run AI-first facade workflows — a process that once took 3 months takes <strong>3 days</strong>. The 'authorship' debate is heating up: who designed this, the architect or the AI? This mirrors product design's own inflection point exactly.", "whyItMatters": "Architecture is ~5 years ahead of product design in AI-assisted workflows. Their debates today are your debates tomorrow — especially around credit and creative ownership.", "tip": "Browse Dezeen's AI tag for 10 min. Notice how architects describe the AI's role vs. their own — great vocabulary to borrow for job interviews." },
+    { "id": "eu-ai-act-2026", "source": "EU AI Act: Enforcement Begins", "field": "policy", "fieldLabel": "Policy & Law", "icon": "⚖️", "score": 8.7, "url": "https://www.21torr.net/en/blog/artikel/eu-ai-act-ux-compliance-guide", "summary": "The EU AI Act's first enforcement wave hits this month. AI-powered interfaces must now show <strong>clear disclosure notices</strong> — many existing dark patterns are officially illegal. Big tech design teams are scrambling to retrofit compliance.", "whyItMatters": "'AI transparency UX' is now a compliance requirement. Designers who understand the law AND implement it gracefully will be uniquely valuable.", "tip": "Read this guide (10 min), then audit one AI product you use daily — screenshot the gaps. Instant portfolio case study material." },
+    { "id": "nng-ai-agents-2026", "source": "NN/G: Designing for AI Agents", "field": "education", "fieldLabel": "Education", "icon": "🎓", "score": 9.0, "url": "https://www.nngroup.com/articles/designing-ai-study-guide/", "summary": "NN/G's updated guide for designing AI agent products. In 2026, <strong>agents take real-world actions</strong> with minimal human input — creating new UX problems around trust, error recovery, and progressive disclosure of AI decisions.", "whyItMatters": "AI agents are shipping in every major product right now. This is the #1 skill gap in design teams — and NN/G's framework is the clearest map through it.", "tip": "Start with the 'AI Agents' module. Apply one framework to a product you use daily — 200 words on what you'd change. That's a LinkedIn post and a portfolio piece." },
+    { "id": "figma-make-2026", "source": "Figma Make: Prompt-to-Prototype", "field": "tech", "fieldLabel": "Tech", "icon": "💻", "score": 9.1, "url": "https://www.figma.com/blog/config-2025-press-release/", "summary": "Figma Make shipped this week — type a product description, get a <strong>fully interactive prototype with real components and variants</strong>. First Draft generates layouts from prompts. Code Connect maps Figma directly to GitHub repos.", "whyItMatters": "This is the tool you'll be expected to know on day one of your first job. Getting fluent before graduating is a real competitive edge.", "tip": "Open Figma right now. Try First Draft on your current project — generate 3 layout variations in 5 minutes and see what AI suggests." },
+    { "id": "maggie-appleton-2026", "source": "Maggie Appleton: Ambient AI Interfaces", "field": "education", "fieldLabel": "Education", "icon": "🎓", "score": 8.9, "url": "https://maggieappleton.com/topics/artificial-intelligence", "summary": "Appleton's latest essay argues <strong>task-oriented UIs outperform pure chat</strong> for complex work — users struggle to articulate intent in open-ended prompts. Her pattern library covers presets, structured inputs, and progressive disclosure of AI capabilities.", "whyItMatters": "Maggie is the sharpest writer on what AI interfaces should feel like. Her framing will change how you approach every AI design problem.", "tip": "Read 'The Expanding Dark Forest and Generative AI' (30 min, worth it). Subscribe to her free newsletter." },
+    { "id": "netflix-ai-2026", "source": "Netflix: AI UI Personalization Results", "field": "media", "fieldLabel": "Media & Hollywood", "icon": "🎬", "score": 8.4, "url": "https://netflixtechblog.com", "summary": "Netflix published results: AI-personalised artwork and layout <strong>boosted watch-through by 23%</strong>. Their system generates 150k+ unique UI configurations per user per day — static design is officially obsolete at scale.", "whyItMatters": "This is the clearest proof that AI-driven UI personalisation outperforms static design. Understand this before a PM asks you to 'add AI personalisation.'", "tip": "Look up Netflix's tech blog on 'contextual bandits for UI.' Then think: what would a personalised version of your portfolio look like?" },
+    { "id": "apple-health-2026", "source": "Apple Health AI Triage UX", "field": "healthcare", "fieldLabel": "Healthcare", "icon": "🏥", "score": 7.9, "url": "https://www.theverge.com/apple", "summary": "Apple's Health app AI triage: the UX decision to <strong>never show a diagnosis — only 'next steps'</strong> — is a masterclass in designing for high-stakes contexts where AI can be wrong. No confidence scores shown to users by design.", "whyItMatters": "Healthcare is the hardest design space for AI trust. Apple's approach gives you transferable patterns for any high-stakes AI product.", "tip": "Open Apple Health and trigger the symptom checker. Screenshot each step and annotate the decisions — 20 min of real-world design research." }
   ],
   "agentUpdates": [
-    {
-      "name": "Figma AI \u2014 First Draft & Make",
-      "description": "Generate UI layouts and interactive prototypes from text prompts directly in Figma",
-      "tag": "Figma",
-      "url": "https://www.figma.com/blog/config-2025-press-release/"
-    },
-    {
-      "name": "Figma 2025 AI Report",
-      "description": "Annual report on how designers are actually using AI \u2014 33% use it for asset generation",
-      "tag": "Figma",
-      "url": "https://www.figma.com/reports/ai-2025/"
-    },
-    {
-      "name": "a16z AI App Patterns 2026",
-      "description": "Emerging developer + designer patterns for building AI-native products",
-      "tag": "a16z",
-      "url": "https://a16z.com/nine-emerging-developer-patterns-for-the-ai-era/"
-    },
-    {
-      "name": "NN/G: Outcome-Oriented Design Era",
-      "description": "Adaptive design frameworks that respond to individual user goals instead of averages",
-      "tag": "NN/G",
-      "url": "https://www.nngroup.com/videos/the-era-of-ai-design/"
-    }
+    { "name": "Figma Make — Prompt to Prototype", "description": "Type a product description, get an interactive prototype with real components", "tag": "Figma", "url": "https://www.figma.com/blog/config-2025-press-release/" },
+    { "name": "Claude Code — Agentic Design Workflows", "description": "Build live design tools and dashboards with natural language, no backend needed", "tag": "Claude", "url": "https://www.anthropic.com/claude-code" },
+    { "name": "Cursor — Figma Token Sync", "description": "Reads your Figma design tokens to generate pixel-matched React components automatically", "tag": "Cursor", "url": "https://cursor.com" },
+    { "name": "Framer AI v2 — Component Generator", "description": "Describe a component, get interactive states, variants and animations", "tag": "Framer", "url": "https://www.framer.com" }
   ],
-  "mustWatch": {
-    "title": "Designing AI Products & Features",
-    "channel": "Nielsen Norman Group",
-    "channelIcon": "\ud83c\udfa8",
-    "url": "https://www.nngroup.com/articles/designing-ai-study-guide/",
-    "duration": "Study guide",
-    "tip": "NN/G's most comprehensive resource on AI UX. Work through the 'AI Agents' module first \u2014 it covers the #1 skill gap for product designers right now."
-  }
+  "mustWatch": { "title": "Designing AI Products & Features", "channel": "Nielsen Norman Group", "channelIcon": "🎓", "url": "https://www.nngroup.com/articles/designing-ai-study-guide/", "duration": "Study guide", "tip": "NN/G's most comprehensive free resource on AI UX. Work through 'AI Agents' first — the #1 skill gap for product designers in 2026." }
 }
