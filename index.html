@@ -438,7 +438,6 @@ function flipVoice(idx) {
   const inner = document.getElementById('voices-inner');
   const back  = document.getElementById('voices-back');
   if (!inner || !back) return;
-  // toggle back to front
   if (idx === -1 || activeVoice === idx) {
     inner.classList.remove('flipped');
     activeVoice = -1;
@@ -456,10 +455,7 @@ function flipVoice(idx) {
     <div style="font-size:11px;color:#aaa;line-height:1.55;font-style:italic;flex:1">"${v.quote}"</div>
     <div style="display:flex;align-items:center;justify-content:space-between;margin-top:10px">
       <span style="font-size:10px;color:#444">${v.date}</span>
-      <div style="display:flex;align-items:center;gap:10px">
-        <button onclick="flipVoice(-1)" style="background:none;border:none;color:#555;cursor:pointer;font-size:11px;font-family:inherit;padding:0">← back</button>
-        <a href="${v.url}" target="_blank" rel="noopener" style="color:var(--yellow);font-size:16px;text-decoration:none;font-weight:700;line-height:1" title="Open ${v.handle} on X">↗</a>
-      </div>
+      <a href="${v.url}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="color:var(--yellow);font-size:16px;text-decoration:none;font-weight:700;line-height:1;padding:4px" title="Open ${v.handle} on X">↗</a>
     </div>`;
   activeVoice = idx;
   inner.classList.add('flipped');
@@ -535,7 +531,7 @@ function renderDashboard(d) {
   const thumbSrc = yt ? `https://img.youtube.com/vi/${yt}/hqdefault.jpg` : null;
 
   const voiceAvatars = VOICES.map((v,i) =>
-    `<div class="voice-avatar" onclick="flipVoice(${i})" style="background:${v.color}" title="${v.name}">${v.initials}</div>`
+    `<div class="voice-avatar" onclick="event.stopPropagation();flipVoice(${i})" style="background:${v.color}" title="${v.name}">${v.initials}</div>`
   ).join('');
 
   document.getElementById('dashboard-content').innerHTML = `
@@ -553,7 +549,7 @@ function renderDashboard(d) {
       <div class="stat-card"><div class="stat-lbl">Stories Scanned</div><div class="stat-num">${d.stats.storiesScanned}</div><div class="stat-sub">from live sources this week</div></div>
       <div class="stat-card"><div class="stat-lbl">Top Picks</div><div class="stat-num">${d.stats.topPicks}</div><div class="stat-sub">scored 7.5+ / 10</div></div>
       <div class="stat-card"><div class="stat-lbl">New AI Tools</div><div class="stat-num">${d.stats.newTools}</div><div class="stat-sub">design-relevant drops</div></div>
-      <div class="voices-card">
+      <div class="voices-card" onclick="if(activeVoice>=0)flipVoice(-1)" style="cursor:default">
         <div class="voices-inner" id="voices-inner">
           <div class="voices-front">
             <div class="stat-lbl" style="color:#555">Voices This Week</div>
