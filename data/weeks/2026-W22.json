@@ -20,5 +20,5 @@
     { "name": "Cursor — Figma Token Sync", "description": "Reads your Figma design tokens to generate pixel-matched React components automatically", "tag": "Cursor", "url": "https://cursor.com" },
     { "name": "Framer AI v2 — Component Generator", "description": "Describe a component, get interactive states, variants and animations", "tag": "Framer", "url": "https://www.framer.com" }
   ],
-  "mustWatch": { "title": "Designing AI Products & Features", "channel": "Nielsen Norman Group", "channelIcon": "🎓", "url": "https://www.nngroup.com/articles/designing-ai-study-guide/", "duration": "Study guide", "tip": "NN/G's most comprehensive free resource on AI UX. Work through 'AI Agents' first — the #1 skill gap for product designers in 2026." }
+  "mustWatch": { "title": "Config 2024: Designing in the Age of AI", "source": "Figma", "icon": "🎨", "youtubeId": "OCnnBMXjOfE", "url": "https://www.youtube.com/watch?v=OCnnBMXjOfE", "duration": "32 min", "summary": "Figma's Config 2024 session on AI-native design workflows — how First Draft, Dev Mode AI, and Make are collapsing the gap between design and production. The most important 30 minutes for any product designer this month." }
 }

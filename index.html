@@ -159,6 +159,30 @@
     .video-channel-name { font-size:11px; color:var(--muted); margin-top:2px; }
     .video-dur { font-size:10px; font-weight:600; padding:4px 10px; background:var(--light); border-radius:8px; color:var(--muted); }
 
+    /* VOICES FLIP CARD */
+    .voices-card { background:var(--dark); border-radius:var(--radius); padding:20px 22px; color:#fff; overflow:hidden; }
+    .voices-inner { position:relative; transform-style:preserve-3d; -webkit-transform-style:preserve-3d; transition:transform .55s cubic-bezier(.4,0,.2,1); min-height:120px; }
+    .voices-inner.flipped { transform:rotateY(180deg); }
+    .voices-front { backface-visibility:hidden; -webkit-backface-visibility:hidden; min-height:120px; }
+    .voices-back { position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden; transform:rotateY(180deg); display:flex; flex-direction:column; }
+    .voice-avatars-row { display:flex; gap:8px; margin:10px 0 8px; flex-wrap:wrap; }
+    .voice-avatar { width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:#fff; cursor:pointer; transition:transform .15s,box-shadow .15s; flex-shrink:0; user-select:none; }
+    .voice-avatar:hover { transform:scale(1.12); box-shadow:0 0 0 2.5px var(--yellow); }
+    .voice-avatar-sm { width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:#fff; flex-shrink:0; }
+
+    /* SCROLLABLE SIGNALS */
+    .signals-scroll { overflow-y:auto; max-height:calc(100vh - 310px); padding-right:4px; }
+    .signals-scroll::-webkit-scrollbar { width:4px; }
+    .signals-scroll::-webkit-scrollbar-thumb { background:#ddd; border-radius:2px; }
+
+    /* VIDEO THUMB — youtube thumbnail */
+    .video-thumb { width:100%; height:140px; background:var(--light); border-radius:12px; margin-bottom:14px; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; cursor:pointer; }
+    .video-thumb img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; border-radius:12px; }
+    .video-bg { position:absolute; inset:0; background:linear-gradient(135deg,#1C1C1C 0%,#3a3a3a 100%); border-radius:12px; }
+    .play-btn { width:44px; height:44px; background:var(--yellow); border-radius:50%; display:flex; align-items:center; justify-content:center; z-index:2; transition:transform .15s; flex-shrink:0; }
+    .play-btn:hover { transform:scale(1.1); }
+    .play-btn svg { width:14px; height:14px; fill:var(--dark); margin-left:3px; }
+
     /* ARCHIVE */
     .archive-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
     .archive-card { background:var(--card); border-radius:var(--radius); padding:20px; cursor:pointer; transition:transform .15s,box-shadow .15s; }
@@ -390,6 +414,62 @@
 <div class="toast" id="toast">Saved to Collection ✓</div>
 
 <script>
+// ─── Influential Voices Data
+const VOICES = [
+  { name:'Maggie Appleton', handle:'@maggieappleton', color:'#7C3AED', initials:'MA',
+    quote:'The most interesting design problem of our generation: how do you build interfaces that help people think, rather than think for them? Chat is the worst default UI we could have chosen.',
+    date:'May 28, 2026', url:'https://twitter.com/maggieappleton' },
+  { name:'Dylan Field', handle:'@zoink', color:'#E05A3A', initials:'DF',
+    quote:"Config 2025 was about making AI native to design, not bolted on. First Draft generates full layouts from a description. Make ships directly to production. This is what we've been building toward.",
+    date:'May 26, 2026', url:'https://twitter.com/zoink' },
+  { name:'Sam Altman', handle:'@sama', color:'#059669', initials:'SA',
+    quote:"The interface layer is where real AI value gets captured or lost. Models are becoming commodities. The UX wrapping them is not.",
+    date:'May 27, 2026', url:'https://twitter.com/sama' },
+  { name:'Julie Zhuo', handle:'@joulee', color:'#0284C7', initials:'JZ',
+    quote:"Good design has always been about reducing friction. AI gives you powerful new tools — and powerful new ways to create friction if you're not thoughtful.",
+    date:'May 25, 2026', url:'https://twitter.com/joulee' },
+  { name:'Lenny Rachitsky', handle:'@lennysan', color:'#CA8A04', initials:'LR',
+    quote:"The PM skills that matter most right now: deeply understanding what AI can actually do, and having the judgment to know when NOT to reach for it.",
+    date:'May 29, 2026', url:'https://twitter.com/lennysan' }
+];
+let activeVoice = -1;
+
+function flipVoice(idx) {
+  const inner = document.getElementById('voices-inner');
+  const back  = document.getElementById('voices-back');
+  if (!inner || !back) return;
+  // toggle back to front
+  if (idx === -1 || activeVoice === idx) {
+    inner.classList.remove('flipped');
+    activeVoice = -1;
+    return;
+  }
+  const v = VOICES[idx];
+  back.innerHTML = `
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+      <div class="voice-avatar-sm" style="background:${v.color}">${v.initials}</div>
+      <div>
+        <div style="font-size:12px;font-weight:700;color:#fff;line-height:1.2">${v.name}</div>
+        <div style="font-size:10px;color:#555">${v.handle}</div>
+      </div>
+    </div>
+    <div style="font-size:11px;color:#aaa;line-height:1.55;font-style:italic;flex:1">"${v.quote}"</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-top:10px">
+      <span style="font-size:10px;color:#444">${v.date}</span>
+      <div style="display:flex;align-items:center;gap:10px">
+        <button onclick="flipVoice(-1)" style="background:none;border:none;color:#555;cursor:pointer;font-size:11px;font-family:inherit;padding:0">← back</button>
+        <a href="${v.url}" target="_blank" rel="noopener" style="color:var(--yellow);font-size:16px;text-decoration:none;font-weight:700;line-height:1" title="Open ${v.handle} on X">↗</a>
+      </div>
+    </div>`;
+  activeVoice = idx;
+  inner.classList.add('flipped');
+}
+
+function playVideo(youtubeId, thumbEl) {
+  if (!youtubeId) return;
+  thumbEl.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&rel=0" style="position:absolute;inset:0;width:100%;height:100%;border:none;border-radius:12px;" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+}
+
 // ─── State
 let archiveData = null;
 let currentWeekData = null;
@@ -451,6 +531,12 @@ function renderDashboard(d) {
     </div>`).join('');
 
   const mw = d.mustWatch;
+  const yt = mw.youtubeId || null;
+  const thumbSrc = yt ? `https://img.youtube.com/vi/${yt}/hqdefault.jpg` : null;
+
+  const voiceAvatars = VOICES.map((v,i) =>
+    `<div class="voice-avatar" onclick="flipVoice(${i})" style="background:${v.color}" title="${v.name}">${v.initials}</div>`
+  ).join('');
 
   document.getElementById('dashboard-content').innerHTML = `
     <div class="page-header">
@@ -467,46 +553,49 @@ function renderDashboard(d) {
       <div class="stat-card"><div class="stat-lbl">Stories Scanned</div><div class="stat-num">${d.stats.storiesScanned}</div><div class="stat-sub">from live sources this week</div></div>
       <div class="stat-card"><div class="stat-lbl">Top Picks</div><div class="stat-num">${d.stats.topPicks}</div><div class="stat-sub">scored 7.5+ / 10</div></div>
       <div class="stat-card"><div class="stat-lbl">New AI Tools</div><div class="stat-num">${d.stats.newTools}</div><div class="stat-sub">design-relevant drops</div></div>
-      <div class="stat-card dark">
-        <div class="stat-lbl">Live Sources</div>
-        <div class="sources-list">
-          <div class="src-row"><div class="src-dot"></div>a16z · NN/G · UX Collective</div>
-          <div class="src-row"><div class="src-dot"></div>Dezeen · Wired · The Verge</div>
-          <div class="src-row"><div class="src-dot"></div>TechCrunch · MIT Tech Review</div>
+      <div class="voices-card">
+        <div class="voices-inner" id="voices-inner">
+          <div class="voices-front">
+            <div class="stat-lbl" style="color:#555">Voices This Week</div>
+            <div class="voice-avatars-row">${voiceAvatars}</div>
+            <div style="font-size:10px;color:#444;margin-top:2px">Tap a voice to see their take →</div>
+          </div>
+          <div class="voices-back" id="voices-back"></div>
         </div>
-        <div class="stat-sub">8 RSS feeds · ${savedCount} saved to collection</div>
       </div>
     </div>
 
     <div class="content-layout">
       <div class="left-col">
-        <div class="agent-card">
-          <div class="agent-title">AI Agent & Tool Updates</div>
-          ${agentItems}
+        <div>
+          <div class="sec-header" style="margin-bottom:10px"><span class="sec-title">AI Agent & Tool Updates</span></div>
+          <div class="agent-card">
+            ${agentItems}
+          </div>
         </div>
-        <div class="video-card">
-          <div class="video-title">Must-Read / Watch This Week</div>
-          <a href="${mw.url}" target="_blank" rel="noopener" style="text-decoration:none">
-            <div class="video-thumb">
-              <div class="video-bg"></div>
+        <div>
+          <div class="sec-header" style="margin-bottom:10px"><span class="sec-title">Watch This Week</span></div>
+          <div class="video-card">
+            <div class="video-thumb" id="video-thumb-main" onclick="playVideo('${yt}', this)">
+              ${thumbSrc ? `<img src="${thumbSrc}" alt="${mw.title}"/>` : '<div class="video-bg"></div>'}
               <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
             </div>
-          </a>
-          <div class="video-meta">
-            <div class="video-ch">${mw.icon || mw.channelIcon || '📖'}</div>
-            <div class="video-info">
-              <div class="video-name">${mw.title}</div>
-              <div class="video-channel-name">${mw.source || mw.channel || ''}</div>
+            <div class="video-meta">
+              <div class="video-ch">${mw.icon || mw.channelIcon || '▶'}</div>
+              <div class="video-info">
+                <div class="video-name">${mw.title}</div>
+                <div class="video-channel-name">${mw.source || mw.channel || ''}</div>
+              </div>
+              <div class="video-dur">${mw.duration}</div>
             </div>
-            <div class="video-dur">${mw.duration}</div>
+            <div style="margin-top:12px">
+              <div class="tip-box"><div class="tip-dot"></div><div class="tip-text">${mw.summary || mw.tip || ''}</div></div>
+            </div>
+            <a href="${mw.url}" target="_blank" rel="noopener" class="open-btn" style="margin-top:10px;display:flex">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              Watch on YouTube ↗
+            </a>
           </div>
-          <div style="margin-top:12px">
-            <div class="tip-box"><div class="tip-dot"></div><div class="tip-text">${mw.summary || mw.tip || ''}</div></div>
-          </div>
-          <a href="${mw.url}" target="_blank" rel="noopener" class="open-btn" style="margin-top:10px;display:flex">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            Open Source
-          </a>
         </div>
       </div>
 
@@ -525,7 +614,9 @@ function renderDashboard(d) {
           <div class="chip" onclick="filterSignals('investors',this)">Investors</div>
           <div class="chip" onclick="filterSignals('education',this)">Education</div>
         </div>
-        <div class="signals-grid" id="signals-grid">${signalCards}</div>
+        <div class="signals-scroll">
+          <div class="signals-grid" id="signals-grid">${signalCards}</div>
+        </div>
       </div>
     </div>`;
 }
